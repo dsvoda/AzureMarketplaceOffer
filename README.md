@@ -24,7 +24,8 @@ You can deploy this solution to Azure using the following steps:
 2. **Deploy to Azure:**
 Click the button below to deploy the solution directly to your Azure subscription.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https://raw.githubusercontent.com/dsvoda/AzureMarketplaceOffer/main/mainTemplate.json)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fdsvoda%2FAzureMarketplaceOffer%2Fmain%2FmainTemplate.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2Fdsvoda%2FAzureMarketplaceOffer%2Fmain%2FcreateUiDefinition.json)
+
 
 ## Files
 - **mainTemplate.json**: Main ARM template.
