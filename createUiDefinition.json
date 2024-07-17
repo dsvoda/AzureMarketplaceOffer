@@ -1,0 +1,93 @@
+{
+    "schema": "https://schema.management.azure.com/createUIDefinition/2015-10-01-preview/CreateUiDefinition.json",
+    "handler": "Microsoft.Compute.MultiVm",
+    "version": "1.0.0",
+    "parameters": {
+      "customerTenantId": {
+        "type": "string",
+        "metadata": {
+          "description": "Tenant ID of the customer",
+          "displayName": "Customer Tenant ID",
+          "tooltip": "The Azure Active Directory tenant ID of the customer."
+        }
+      },
+      "principalId": {
+        "type": "string",
+        "metadata": {
+          "description": "Principal ID for Lighthouse",
+          "displayName": "Principal ID",
+          "tooltip": "The ID of the principal (user or service principal) that will have access in the customer's tenant."
+        }
+      },
+      "roleDefinitionId": {
+        "type": "string",
+        "metadata": {
+          "description": "Role Definition ID",
+          "displayName": "Role Definition ID",
+          "tooltip": "The ID of the role that the principal will be assigned to."
+        }
+      },
+      "principalIdDisplayName": {
+        "type": "string",
+        "metadata": {
+          "description": "Display name of the principal ID",
+          "displayName": "Principal ID Display Name",
+          "tooltip": "The display name of the principal (user or service principal)."
+        }
+      },
+      "managedByTenantId": {
+        "type": "string",
+        "metadata": {
+          "description": "Managed by Tenant ID",
+          "displayName": "Managed by Tenant ID",
+          "tooltip": "The tenant ID that manages the subscription."
+        }
+      },
+      "location": {
+        "type": "string",
+        "metadata": {
+          "description": "Location for the resources",
+          "displayName": "Location",
+          "tooltip": "The Azure region where the resources will be deployed."
+        }
+      },
+      "subscriptionId": {
+        "type": "string",
+        "metadata": {
+          "description": "Subscription ID",
+          "displayName": "Subscription ID",
+          "tooltip": "The subscription ID where the policies will be deployed."
+        }
+      },
+      "allowedLocations": {
+        "type": "array",
+        "metadata": {
+          "description": "List of allowed locations",
+          "displayName": "Allowed Locations",
+          "tooltip": "The locations that are allowed for resources.",
+          "strongType": "location"
+        }
+      },
+      "allowedVmSizes": {
+        "type": "array",
+        "metadata": {
+          "description": "List of allowed VM sizes",
+          "displayName": "Allowed VM Sizes",
+          "tooltip": "The VM sizes that are allowed for virtual machines.",
+          "strongType": "vmsize"
+        }
+      }
+    },
+    "outputs": {
+      "customerTenantId": "[customerTenantId]",
+      "principalId": "[principalId]",
+      "roleDefinitionId": "[roleDefinitionId]",
+      "principalIdDisplayName": "[principalIdDisplayName]",
+      "managedByTenantId": "[managedByTenantId]",
+      "location": "[location]",
+      "subscriptionId": "[subscriptionId]",
+      "allowedLocations": "[allowedLocations]",
+      "allowedVmSizes": "[allowedVmSizes]"
+    }
+  }
+  

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "customerTenantId": {
+      "type": "string"
+    },
+    "principalId": {
+      "type": "string"
+    },
+    "roleDefinitionId": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "subscriptionId": {
+      "type": "string"
+    },
+    "allowedLocations": {
+      "type": "array"
+    },
+    "allowedVmSizes": {
+      "type": "array"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "LighthouseOnboarding",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[uri(deployment().properties.templateLink.uri, 'nestedtemplates/marketplaceDelegatedResourceManagement.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "customerTenantId": {
+            "value": "[parameters('customerTenantId')]"
+          },
+          "principalId": {
+            "value": "[parameters('principalId')]"
+          },
+          "roleDefinitionId": {
+            "value": "[parameters('roleDefinitionId')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "DeployPolicies",
+      "dependsOn": [
+        "LighthouseOnboarding"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[uri(deployment().properties.templateLink.uri, 'nestedtemplates/deployPolicies.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "subscriptionId": {
+            "value": "[parameters('subscriptionId')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "allowedLocations": {
+            "value": "[parameters('allowedLocations')]"
+          },
+          "allowedVmSizes": {
+            "value": "[parameters('allowedVmSizes')]"
+          }
+        }
+      }
+    }
+  ]
+}
