@@ -1,93 +1,170 @@
 {
-    "schema": "https://schema.management.azure.com/createUIDefinition/2015-10-01-preview/CreateUiDefinition.json",
-    "handler": "Microsoft.Compute.MultiVm",
-    "version": "1.0.0",
+  "schema": "https://schema.management.azure.com/createUIDefinition/2015-10-01-preview/CreateUiDefinition.json#",
+  "view": {
+    "kind": "Form",
+    "properties": {
+      "isWizard": false,
+      "steps": [
+        {
+          "name": "descriptionStep",
+          "label": "Description",
+          "elements": [
+            {
+              "name": "description",
+              "type": "Markdown",
+              "visible": true,
+              "value": "This deployment will onboard customers to Azure Lighthouse and deploy specific Azure policies."
+            },
+            {
+              "name": "subscription",
+              "type": "Microsoft.Common.Subscription",
+              "label": "Subscription",
+              "tooltip": "Select the subscription to be used for this deployment.",
+              "constraints": {
+                "required": true
+              }
+            }
+          ]
+        },
+        {
+          "name": "lighthouseOnboarding",
+          "label": "Lighthouse Onboarding",
+          "elements": [
+            {
+              "name": "deployLighthouse",
+              "type": "Microsoft.Common.CheckBox",
+              "label": "Deploy Lighthouse Onboarding",
+              "defaultValue": false
+            },
+            {
+              "name": "customerTenantId",
+              "type": "string",
+              "label": "Customer Tenant ID",
+              "tooltip": "The Azure Active Directory tenant ID of the customer.",
+              "constraints": {
+                "required": true
+              },
+              "visible": "[steps('lighthouseOnboarding').deployLighthouse]"
+            },
+            {
+              "name": "principalId",
+              "type": "string",
+              "label": "Principal ID",
+              "tooltip": "The ID of the principal (user or service principal) that will have access in the customer's tenant.",
+              "constraints": {
+                "required": true
+              },
+              "visible": "[steps('lighthouseOnboarding').deployLighthouse]"
+            },
+            {
+              "name": "roleDefinitionId",
+              "type": "string",
+              "label": "Role Definition ID",
+              "tooltip": "The ID of the role that the principal will be assigned to.",
+              "constraints": {
+                "required": true
+              },
+              "visible": "[steps('lighthouseOnboarding').deployLighthouse]"
+            },
+            {
+              "name": "principalIdDisplayName",
+              "type": "string",
+              "label": "Principal ID Display Name",
+              "tooltip": "The display name of the principal (user or service principal).",
+              "constraints": {
+                "required": true
+              },
+              "visible": "[steps('lighthouseOnboarding').deployLighthouse]"
+            },
+            {
+              "name": "managedByTenantId",
+              "type": "string",
+              "label": "Managed by Tenant ID",
+              "tooltip": "The tenant ID that manages the subscription.",
+              "constraints": {
+                "required": true
+              },
+              "visible": "[steps('lighthouseOnboarding').deployLighthouse]"
+            }
+          ]
+        },
+        {
+          "name": "deployPolicies",
+          "label": "Deploy Policies",
+          "elements": [
+            {
+              "name": "deployPoliciesCheckbox",
+              "type": "Microsoft.Common.CheckBox",
+              "label": "Deploy Policies",
+              "defaultValue": false
+            },
+            {
+              "name": "allowedLocationsSection",
+              "type": "Microsoft.Common.Section",
+              "visible": "[steps('deployPolicies').deployPoliciesCheckbox]",
+              "label": "Allowed Locations",
+              "elements": [
+                {
+                  "name": "computeApi",
+                  "type": "Microsoft.Solutions.ArmApiControl",
+                  "request": {
+                    "method": "GET",
+                    "path": "[concat(steps('descriptionStep').subscription.id,'/providers/Microsoft.Compute/locations?api-version=2021-04-01')]"
+                  }
+                },
+                {
+                  "name": "allowedLocations",
+                  "type": "Microsoft.Common.MultiSelectDropdown",
+                  "label": "Allowed Locations",
+                  "tooltip": "Select the allowed locations for resources.",
+                  "constraints": {
+                    "required": true,
+                    "allowedValues": "[map(steps('deployPolicies').allowedLocationsSection.computeApi.value, 'displayName')]"
+                  }
+                }
+              ]
+            },
+            {
+              "name": "allowedVmSizesSection",
+              "type": "Microsoft.Common.Section",
+              "visible": "[steps('deployPolicies').deployPoliciesCheckbox]",
+              "label": "Allowed VM Sizes",
+              "elements": [
+                {
+                  "name": "computeApiVmSizes",
+                  "type": "Microsoft.Solutions.ArmApiControl",
+                  "request": {
+                    "method": "GET",
+                    "path": "[concat(steps('descriptionStep').subscription.id,'/providers/Microsoft.Compute/skus?api-version=2021-04-01')]"
+                  }
+                },
+                {
+                  "name": "allowedVmSizes",
+                  "type": "Microsoft.Common.MultiSelectDropdown",
+                  "label": "Allowed VM Sizes",
+                  "tooltip": "Select the allowed VM sizes for virtual machines.",
+                  "constraints": {
+                    "required": true,
+                    "allowedValues": "[map(steps('deployPolicies').allowedVmSizesSection.computeApiVmSizes.value, 'name')]"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "outputs": {
     "parameters": {
-      "customerTenantId": {
-        "type": "string",
-        "metadata": {
-          "description": "Tenant ID of the customer",
-          "displayName": "Customer Tenant ID",
-          "tooltip": "The Azure Active Directory tenant ID of the customer."
-        }
-      },
-      "principalId": {
-        "type": "string",
-        "metadata": {
-          "description": "Principal ID for Lighthouse",
-          "displayName": "Principal ID",
-          "tooltip": "The ID of the principal (user or service principal) that will have access in the customer's tenant."
-        }
-      },
-      "roleDefinitionId": {
-        "type": "string",
-        "metadata": {
-          "description": "Role Definition ID",
-          "displayName": "Role Definition ID",
-          "tooltip": "The ID of the role that the principal will be assigned to."
-        }
-      },
-      "principalIdDisplayName": {
-        "type": "string",
-        "metadata": {
-          "description": "Display name of the principal ID",
-          "displayName": "Principal ID Display Name",
-          "tooltip": "The display name of the principal (user or service principal)."
-        }
-      },
-      "managedByTenantId": {
-        "type": "string",
-        "metadata": {
-          "description": "Managed by Tenant ID",
-          "displayName": "Managed by Tenant ID",
-          "tooltip": "The tenant ID that manages the subscription."
-        }
-      },
-      "location": {
-        "type": "string",
-        "metadata": {
-          "description": "Location for the resources",
-          "displayName": "Location",
-          "tooltip": "The Azure region where the resources will be deployed."
-        }
-      },
-      "subscriptionId": {
-        "type": "string",
-        "metadata": {
-          "description": "Subscription ID",
-          "displayName": "Subscription ID",
-          "tooltip": "The subscription ID where the policies will be deployed."
-        }
-      },
-      "allowedLocations": {
-        "type": "array",
-        "metadata": {
-          "description": "List of allowed locations",
-          "displayName": "Allowed Locations",
-          "tooltip": "The locations that are allowed for resources.",
-          "strongType": "location"
-        }
-      },
-      "allowedVmSizes": {
-        "type": "array",
-        "metadata": {
-          "description": "List of allowed VM sizes",
-          "displayName": "Allowed VM Sizes",
-          "tooltip": "The VM sizes that are allowed for virtual machines.",
-          "strongType": "vmsize"
-        }
-      }
-    },
-    "outputs": {
-      "customerTenantId": "[customerTenantId]",
-      "principalId": "[principalId]",
-      "roleDefinitionId": "[roleDefinitionId]",
-      "principalIdDisplayName": "[principalIdDisplayName]",
-      "managedByTenantId": "[managedByTenantId]",
-      "location": "[location]",
-      "subscriptionId": "[subscriptionId]",
-      "allowedLocations": "[allowedLocations]",
-      "allowedVmSizes": "[allowedVmSizes]"
+      "subscriptionId": "[steps('descriptionStep').subscription.id]",
+      "customerTenantId": "[steps('lighthouseOnboarding').customerTenantId]",
+      "principalId": "[steps('lighthouseOnboarding').principalId]",
+      "roleDefinitionId": "[steps('lighthouseOnboarding').roleDefinitionId]",
+      "principalIdDisplayName": "[steps('lighthouseOnboarding').principalIdDisplayName]",
+      "managedByTenantId": "[steps('lighthouseOnboarding').managedByTenantId]",
+      "allowedLocations": "[steps('deployPolicies').allowedLocations]",
+      "allowedVmSizes": "[steps('deployPolicies').allowedVmSizes]"
     }
   }
-  
+}
