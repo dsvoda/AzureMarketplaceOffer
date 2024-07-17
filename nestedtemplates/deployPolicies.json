@@ -1,0 +1,77 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "subscriptionId": {
+      "type": "string"
+    },
+    "allowedLocations": {
+      "type": "array"
+    },
+    "allowedVmSizes": {
+      "type": "array"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Authorization/policyAssignments",
+      "apiVersion": "2020-09-01",
+      "name": "allowed-locations-assignment",
+      "properties": {
+        "displayName": "Allowed Locations",
+        "policyDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/policyDefinitions', 'e56962a6-4747-49cd-b67b-bf8b01975c4c')]",
+        "scope": "[subscriptionResourceId('Microsoft.Resources/subscriptions', parameters('subscriptionId'))]",
+        "parameters": {
+          "listOfAllowedLocations": {
+            "value": "[parameters('allowedLocations')]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/policyAssignments",
+      "apiVersion": "2020-09-01",
+      "name": "allowed-vm-size-assignment",
+      "properties": {
+        "displayName": "Allowed Virtual Machine Size SKUs",
+        "policyDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/policyDefinitions', 'd07db90d-6482-4f7f-b23d-35a7368c4c5a')]",
+        "scope": "[subscriptionResourceId('Microsoft.Resources/subscriptions', parameters('subscriptionId'))]",
+        "parameters": {
+          "listOfAllowedSKUs": {
+            "value": "[parameters('allowedVmSizes')]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/policyAssignments",
+      "apiVersion": "2020-09-01",
+      "name": "enable-backup-assignment",
+      "properties": {
+        "displayName": "Azure Backup Should Be Enabled for Virtual Machines",
+        "policyDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/policyDefinitions', 'b15e919c-a5f3-42b5-8144-f2ab1b2f0df2')]",
+        "scope": "[subscriptionResourceId('Microsoft.Resources/subscriptions', parameters('subscriptionId'))]",
+        "parameters": {
+          "effect": {
+            "value": "AuditIfNotExists"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/policyAssignments",
+      "apiVersion": "2020-09-01",
+      "name": "nsg-assignment",
+      "properties": {
+        "displayName": "Subnets Should Be Associated with a Network Security Group",
+        "policyDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/policyDefinitions', '6f3b5d17-7d9c-4cc7-bb37-12bfc32f5734')]",
+        "scope": "[subscriptionResourceId('Microsoft.Resources/subscriptions', parameters('subscriptionId'))]",
+        "parameters": {
+          "effect": {
+            "value": "AuditIfNotExists"
+          }
+        }
+      }
+    }
+  ]
+}

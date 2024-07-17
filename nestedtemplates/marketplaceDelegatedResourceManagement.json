@@ -1,0 +1,49 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "customerTenantId": {
+      "type": "string"
+    },
+    "principalId": {
+      "type": "string"
+    },
+    "roleDefinitionId": {
+      "type": "string"
+    },
+    "principalIdDisplayName": {
+      "type": "string"
+    },
+    "managedByTenantId": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.ManagedServices/registrationDefinitions",
+      "apiVersion": "2022-10-01",
+      "name": "[guid(parameters('customerTenantId'), parameters('principalId'))]",
+      "scope": "/",
+      "plan": {
+        "name": "delegatedResourceManagement",
+        "product": "Azure Lighthouse",
+        "publisher": "Microsoft",
+        "version": "1.0.0"
+      },
+      "properties": {
+        "authorizations": [
+          {
+            "delegatedRoleDefinitionIds": [
+              "[parameters('roleDefinitionId')]"
+            ],
+            "principalId": "[parameters('principalId')]",
+            "principalIdDisplayName": "[parameters('principalIdDisplayName')]"
+          }
+        ],
+        "description": "Onboarding to Azure Lighthouse",
+        "managedByTenantId": "[parameters('managedByTenantId')]",
+        "registrationDefinitionName": "Azure Lighthouse Onboarding"
+      }
+    }
+  ]
+}
