@@ -2,16 +2,10 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "customerTenantId": {
-      "type": "string"
-    },
-    "principalId": {
-      "type": "string"
-    },
-    "roleDefinitionId": {
-      "type": "string"
-    },
     "subscriptionId": {
+      "type": "string"
+    },
+    "location": {
       "type": "string"
     },
     "allowedLocations": {
@@ -34,13 +28,22 @@
         },
         "parameters": {
           "customerTenantId": {
-            "value": "[parameters('customerTenantId')]"
+            "value": "[subscription().tenantId]"
           },
           "principalId": {
-            "value": "[parameters('principalId')]"
+            "value": "hardcoded-principal-id"
           },
           "roleDefinitionId": {
-            "value": "[parameters('roleDefinitionId')]"
+            "value": "hardcoded-role-definition-id"
+          },
+          "principalIdDisplayName": {
+            "value": "hardcoded-principal-display-name"
+          },
+          "managedByTenantId": {
+            "value": "hardcoded-managed-by-tenant-id"
+          },
+          "location": {
+            "value": "[parameters('location')]"
           }
         }
       }
@@ -61,6 +64,9 @@
         "parameters": {
           "subscriptionId": {
             "value": "[parameters('subscriptionId')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
           },
           "allowedLocations": {
             "value": "[parameters('allowedLocations')]"
