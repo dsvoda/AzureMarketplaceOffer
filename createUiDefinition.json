@@ -17,13 +17,11 @@
             {
               "name": "resourceSelector",
               "type": "Microsoft.Solutions.ResourceSelector",
-              "label": "Select Subscriptions and Location",
-              "tooltip": "Select the subscriptions and location to be used for this deployment.",
+              "label": "Select Subscriptions",
+              "tooltip": "Select the subscriptions to be used for this deployment.",
               "options": {
                 "resourceType": "Microsoft.Resources/subscriptions",
-                "capabilities": [
-                  "location"
-                ],
+                "capabilities": [],
                 "multiple": true
               },
               "constraints": {
@@ -103,7 +101,6 @@
       "kind": "Form",
       "parameters": {
         "subscriptionId": "[steps('descriptionStep').resourceSelector.subscription.id]",
-        "location": "[steps('descriptionStep').resourceSelector.location]",
         "allowedLocations": "[steps('deployPolicies').allowedLocations]",
         "allowedVmSizes": "[steps('deployPolicies').allowedVmSizes]"
       }
