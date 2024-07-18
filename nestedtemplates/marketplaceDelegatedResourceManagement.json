@@ -1,28 +1,12 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-  "parameters": {
-    "customerTenantId": {
-      "type": "string"
-    },
-    "principalId": {
-      "type": "string"
-    },
-    "roleDefinitionId": {
-      "type": "string"
-    },
-    "principalIdDisplayName": {
-      "type": "string"
-    },
-    "managedByTenantId": {
-      "type": "string"
-    }
-  },
+  "parameters": {},
   "resources": [
     {
       "type": "Microsoft.ManagedServices/registrationDefinitions",
       "apiVersion": "2022-10-01",
-      "name": "[guid(parameters('customerTenantId'), parameters('principalId'))]",
+      "name": "[guid(subscription().tenantId, 'hardcoded-principal-id')]",
       "scope": "/",
       "plan": {
         "name": "delegatedResourceManagement",
@@ -34,14 +18,14 @@
         "authorizations": [
           {
             "delegatedRoleDefinitionIds": [
-              "[parameters('roleDefinitionId')]"
+              "hardcoded-role-definition-id"
             ],
-            "principalId": "[parameters('principalId')]",
-            "principalIdDisplayName": "[parameters('principalIdDisplayName')]"
+            "principalId": "hardcoded-principal-id",
+            "principalIdDisplayName": "hardcoded-principal-display-name"
           }
         ],
         "description": "Onboarding to Azure Lighthouse",
-        "managedByTenantId": "[parameters('managedByTenantId')]",
+        "managedByTenantId": "hardcoded-managed-by-tenant-id",
         "registrationDefinitionName": "Azure Lighthouse Onboarding"
       }
     }
