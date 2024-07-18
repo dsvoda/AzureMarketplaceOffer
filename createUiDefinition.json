@@ -16,7 +16,7 @@
             },
             {
               "name": "resourceGroupLocation",
-              "type": "Microsoft.Common.ResourceGroupLocation",
+              "type": "Microsoft.Common.ResourceScope",
               "label": "Resource Group Location",
               "tooltip": "Select the subscription and location to be used for this deployment.",
               "constraints": {
