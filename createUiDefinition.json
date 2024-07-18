@@ -1,9 +1,9 @@
 {
-  "schema": "https://schema.management.azure.com/createUIDefinition/2015-10-01-preview/CreateUiDefinition.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2021-09-09/uiFormDefinition.schema.json",
   "view": {
     "kind": "Form",
     "properties": {
-      "isWizard": true,
+      "title": "Azure Managed Application for Lighthouse Onboarding and Policy Deployment",
       "steps": [
         {
           "name": "descriptionStep",
@@ -12,7 +12,6 @@
             {
               "name": "description",
               "type": "Microsoft.Common.TextBlock",
-              "visible": true,
               "text": "This deployment will onboard customers to Azure Lighthouse and deploy specific Azure policies."
             },
             {
@@ -40,7 +39,6 @@
               "name": "customerTenantId",
               "type": "Microsoft.Common.TextBox",
               "label": "Customer Tenant ID",
-              "tooltip": "The Azure Active Directory tenant ID of the customer.",
               "constraints": {
                 "required": true
               },
@@ -50,7 +48,6 @@
               "name": "principalId",
               "type": "Microsoft.Common.TextBox",
               "label": "Principal ID",
-              "tooltip": "The ID of the principal (user or service principal) that will have access in the customer's tenant.",
               "constraints": {
                 "required": true
               },
@@ -60,7 +57,6 @@
               "name": "roleDefinitionId",
               "type": "Microsoft.Common.TextBox",
               "label": "Role Definition ID",
-              "tooltip": "The ID of the role that the principal will be assigned to.",
               "constraints": {
                 "required": true
               },
@@ -70,7 +66,6 @@
               "name": "principalIdDisplayName",
               "type": "Microsoft.Common.TextBox",
               "label": "Principal ID Display Name",
-              "tooltip": "The display name of the principal (user or service principal).",
               "constraints": {
                 "required": true
               },
@@ -80,7 +75,6 @@
               "name": "managedByTenantId",
               "type": "Microsoft.Common.TextBox",
               "label": "Managed by Tenant ID",
-              "tooltip": "The tenant ID that manages the subscription.",
               "constraints": {
                 "required": true
               },
@@ -153,16 +147,21 @@
           ]
         }
       ]
+    },
+    "outputs": {
+      "kind": "ResourceGroup",
+      "resourceGroupId": "[resourceGroup().id]",
+      "location": "[resourceGroup().location]",
+      "parameters": {
+        "subscriptionId": "[steps('descriptionStep').subscription.subscriptionId]",
+        "customerTenantId": "[steps('lighthouseOnboarding').customerTenantId]",
+        "principalId": "[steps('lighthouseOnboarding').principalId]",
+        "roleDefinitionId": "[steps('lighthouseOnboarding').roleDefinitionId]",
+        "principalIdDisplayName": "[steps('lighthouseOnboarding').principalIdDisplayName]",
+        "managedByTenantId": "[steps('lighthouseOnboarding').managedByTenantId]",
+        "allowedLocations": "[steps('deployPolicies').allowedLocations]",
+        "allowedVmSizes": "[steps('deployPolicies').allowedVmSizes]"
+      }
     }
-  },
-  "outputs": {
-    "subscriptionId": "[steps('descriptionStep').subscription.subscriptionId]",
-    "customerTenantId": "[steps('lighthouseOnboarding').customerTenantId]",
-    "principalId": "[steps('lighthouseOnboarding').principalId]",
-    "roleDefinitionId": "[steps('lighthouseOnboarding').roleDefinitionId]",
-    "principalIdDisplayName": "[steps('lighthouseOnboarding').principalIdDisplayName]",
-    "managedByTenantId": "[steps('lighthouseOnboarding').managedByTenantId]",
-    "allowedLocations": "[steps('deployPolicies').allowedLocations]",
-    "allowedVmSizes": "[steps('deployPolicies').allowedVmSizes]"
   }
 }
