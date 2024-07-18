@@ -136,6 +136,12 @@
                   "type": "Microsoft.Compute.SizeSelector",
                   "label": "Allowed VM Sizes",
                   "tooltip": "Select the allowed VM sizes for virtual machines.",
+                  "recommendedSizes": [
+                    "Standard_B2as_v2",
+                    "Standard_D8as_v5",
+                    "Standard_D8ads_v5",
+                    "Standard_NV6ads_A10_v5"
+                  ],
                   "options": {
                     "subscriptionId": "[steps('descriptionStep').resourceSelector.subscription.id]",
                     "location": "[steps('descriptionStep').resourceSelector.location]"
