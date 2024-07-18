@@ -11,9 +11,6 @@
     "roleDefinitionId": {
       "type": "string"
     },
-    "location": {
-      "type": "string"
-    },
     "subscriptionId": {
       "type": "string"
     },
@@ -44,9 +41,6 @@
           },
           "roleDefinitionId": {
             "value": "[parameters('roleDefinitionId')]"
-          },
-          "location": {
-            "value": "[parameters('location')]"
           }
         }
       }
@@ -67,9 +61,6 @@
         "parameters": {
           "subscriptionId": {
             "value": "[parameters('subscriptionId')]"
-          },
-          "location": {
-            "value": "[parameters('location')]"
           },
           "allowedLocations": {
             "value": "[parameters('allowedLocations')]"
