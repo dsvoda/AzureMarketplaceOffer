@@ -114,9 +114,10 @@
                 },
                 {
                   "name": "allowedLocations",
-                  "type": "Microsoft.Common.MultiSelectDropdown",
+                  "type": "Microsoft.Common.DropDown",
                   "label": "Allowed Locations",
                   "tooltip": "Select the allowed locations for resources.",
+                  "multiselect": true,
                   "constraints": {
                     "required": true,
                     "allowedValues": "[map(steps('deployPolicies').allowedLocationsSection.computeApi.value, 'displayName')]"
