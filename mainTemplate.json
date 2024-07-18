@@ -30,18 +30,6 @@
           "customerTenantId": {
             "value": "[subscription().tenantId]"
           },
-          "principalId": {
-            "value": "hardcoded-principal-id"
-          },
-          "roleDefinitionId": {
-            "value": "hardcoded-role-definition-id"
-          },
-          "principalIdDisplayName": {
-            "value": "hardcoded-principal-display-name"
-          },
-          "managedByTenantId": {
-            "value": "hardcoded-managed-by-tenant-id"
-          },
           "location": {
             "value": "[parameters('location')]"
           }
