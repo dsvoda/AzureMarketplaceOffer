@@ -15,12 +15,22 @@
               "text": "This deployment will onboard customers to Azure Lighthouse and deploy specific Azure policies."
             },
             {
-              "name": "resourceGroupLocation",
-              "type": "Microsoft.Common.ResourceScope",
-              "label": "Resource Group Location",
-              "tooltip": "Select the subscription and location to be used for this deployment.",
+              "name": "location",
+              "type": "Microsoft.Common.Location",
+              "label": "Location",
+              "tooltip": "Select the location for the resources.",
               "constraints": {
                 "required": true
+              }
+            },
+            {
+              "name": "subscription",
+              "type": "Microsoft.Common.DropDown",
+              "label": "Subscription",
+              "tooltip": "Select the subscription to be used for this deployment.",
+              "constraints": {
+                "required": true,
+                "allowedValues": "[subscriptions()]"
               }
             }
           ]
@@ -153,7 +163,7 @@
       "resourceGroupId": "[resourceGroup().id]",
       "location": "[resourceGroup().location]",
       "parameters": {
-        "subscriptionId": "[steps('descriptionStep').resourceGroupLocation.subscriptionId]",
+        "subscriptionId": "[steps('descriptionStep').subscription]",
         "customerTenantId": "[steps('lighthouseOnboarding').customerTenantId]",
         "principalId": "[steps('lighthouseOnboarding').principalId]",
         "roleDefinitionId": "[steps('lighthouseOnboarding').roleDefinitionId]",
