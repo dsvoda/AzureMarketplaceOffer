@@ -100,8 +100,9 @@
             },
             {
               "name": "allowedLocations",
-              "type": "Microsoft.Common.MultiSelectDropdown",
+              "type": "Microsoft.Common.DropDown",
               "label": "Allowed Locations",
+              "multiselect": true,
               "tooltip": "Select the allowed locations for resources.",
               "constraints": {
                 "required": true,
