@@ -114,7 +114,7 @@
                 },
                 {
                   "name": "allowedLocations",
-                  "type": "Microsoft.Common.Dropdown",
+                  "type": "Microsoft.Common.DropDown",
                   "label": "Allowed Locations",
                   "multuselect": true,
                   "tooltip": "Select the allowed locations for resources.",
