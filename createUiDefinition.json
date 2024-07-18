@@ -142,6 +142,7 @@
                     "Standard_D8ads_v5",
                     "Standard_NV6ads_A10_v5"
                   ],
+                  "osPlatform": "Windows",
                   "options": {
                     "subscriptionId": "[steps('descriptionStep').resourceSelector.subscription.id]",
                     "location": "[steps('descriptionStep').resourceSelector.location]"
