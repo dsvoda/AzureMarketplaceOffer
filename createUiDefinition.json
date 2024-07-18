@@ -15,22 +15,18 @@
               "text": "This deployment will onboard customers to Azure Lighthouse and deploy specific Azure policies."
             },
             {
-              "name": "location",
-              "type": "Microsoft.Common.Location",
-              "label": "Location",
-              "tooltip": "Select the location for the resources.",
+              "name": "resourceSelector",
+              "type": "Microsoft.Solutions.ResourceSelector",
+              "label": "Select Subscription and Location",
+              "toolTip": "Select the subscription and location to be used for this deployment.",
+              "options": {
+                "resourceType": "Microsoft.Resources/subscriptions",
+                "capabilities": [
+                  "location"
+                ]
+              },
               "constraints": {
                 "required": true
-              }
-            },
-            {
-              "name": "subscription",
-              "type": "Microsoft.Common.DropDown",
-              "label": "Subscription",
-              "tooltip": "Select the subscription to be used for this deployment.",
-              "constraints": {
-                "required": true,
-                "allowedValues": "[subscriptions()]"
               }
             }
           ]
@@ -135,21 +131,16 @@
               "label": "Allowed VM Sizes",
               "elements": [
                 {
-                  "name": "computeApiVmSizes",
-                  "type": "Microsoft.Solutions.ArmApiControl",
-                  "request": {
-                    "method": "GET",
-                    "path": "[concat(subscription().subscriptionId,'/providers/Microsoft.Compute/skus?api-version=2021-04-01')]"
-                  }
-                },
-                {
                   "name": "allowedVmSizes",
-                  "type": "Microsoft.Common.MultiSelectDropdown",
+                  "type": "Microsoft.Compute.SizeSelector",
                   "label": "Allowed VM Sizes",
                   "tooltip": "Select the allowed VM sizes for virtual machines.",
+                  "options": {
+                    "subscriptionId": "[steps('descriptionStep').resourceSelector.subscription.id]",
+                    "location": "[steps('descriptionStep').resourceSelector.location]"
+                  },
                   "constraints": {
-                    "required": true,
-                    "allowedValues": "[map(steps('deployPolicies').allowedVmSizesSection.computeApiVmSizes.value, 'name')]"
+                    "required": true
                   }
                 }
               ]
@@ -163,7 +154,7 @@
       "resourceGroupId": "[resourceGroup().id]",
       "location": "[resourceGroup().location]",
       "parameters": {
-        "subscriptionId": "[steps('descriptionStep').subscription]",
+        "subscriptionId": "[steps('descriptionStep').resourceSelector.subscription.id]",
         "customerTenantId": "[steps('lighthouseOnboarding').customerTenantId]",
         "principalId": "[steps('lighthouseOnboarding').principalId]",
         "roleDefinitionId": "[steps('lighthouseOnboarding').roleDefinitionId]",
