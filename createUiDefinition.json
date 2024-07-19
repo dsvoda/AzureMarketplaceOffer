@@ -16,11 +16,10 @@
               },
               {
                 "name": "resourceSelector",
-                "type": "Microsoft.Solutions.ResourceSelector",
+                "type": "Microsoft.Common.SubscriptionSelector",
                 "label": "Select Subscriptions",
                 "tooltip": "Select the subscriptions to be used for this deployment.",
                 "options": {
-                  "resourceType": "Microsoft.Subscriptions/subscriptions",
                   "capabilities": [
                   ],
                   "multiple": true
@@ -109,3 +108,4 @@
       }
     }
   }
+  
