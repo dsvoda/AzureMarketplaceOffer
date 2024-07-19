@@ -25,6 +25,7 @@
           }
         ],
         "description": "Onboarding to Azure Lighthouse",
+        "clientTenantId": "[guid(subscription().tenantId)]",
         "managedByTenantId": "hardcoded-managed-by-tenant-id",
         "registrationDefinitionName": "Azure Lighthouse Onboarding"
       }
