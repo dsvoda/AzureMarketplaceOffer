@@ -5,9 +5,6 @@
     "subscriptionId": {
       "type": "string"
     },
-    "location": {
-      "type": "string"
-    },
     "allowedLocations": {
       "type": "array"
     },
@@ -29,9 +26,6 @@
         "parameters": {
           "customerTenantId": {
             "value": "[subscription().tenantId]"
-          },
-          "location": {
-            "value": "[parameters('location')]"
           }
         }
       }
@@ -52,9 +46,6 @@
         "parameters": {
           "subscriptionId": {
             "value": "[parameters('subscriptionId')]"
-          },
-          "location": {
-            "value": "[parameters('location')]"
           },
           "allowedLocations": {
             "value": "[parameters('allowedLocations')]"
