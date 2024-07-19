@@ -15,14 +15,23 @@
                 "text": "This deployment will onboard customers to Azure Lighthouse and deploy specific Azure policies."
               },
               {
-                "name": "subscriptionId",
-                "type": "Microsoft.Common.DropDown",
-                "label": "Subscription",
-                "tooltip": "Select the subscription to onboard.",
-                "constraints": {
-                  "required": true,
-                  "allowedValues": "[subscription().subscriptionId]"
+                "name": "subscriptionsApi",
+                "type": "Microsoft.Solutions.ArmApiControl",
+                "request": {
+                  "method": "GET",
+                  "path": "/subscriptions?api-version=2021-01-01"
                 }
+              },
+              {
+                "name": "subscriptionDropDown",
+                "type": "Microsoft.Common.DropDown",
+                "label": "Select Subscription",
+                "tooltip": "Select the subscription to be used for this deployment.",
+                "constraints": {
+                  "allowedValues": "[map(basics('subscriptionsApi').value, (item) => parse(concat('{\"label\":\"', item.displayName, '\",\"value\":\"', item.subscriptionId, '\"}')))]",
+                  "required": true
+                },
+                "visible": true
               }
             ]
           },
