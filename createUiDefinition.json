@@ -21,7 +21,10 @@
               "tooltip": "Select the subscriptions to be used for this deployment.",
               "options": {
                 "resourceType": "Microsoft.Resources/subscriptions",
-                "capabilities": [],
+                "apiVersion": "2019-10-01",  // Added API version based on your screenshot
+                "capabilities": [
+                  "location"
+                ],
                 "multiple": true
               },
               "constraints": {
