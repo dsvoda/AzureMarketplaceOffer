@@ -86,8 +86,6 @@
     "outputs": {
       "kind": "Form",
       "parameters": {
-        "subscriptionId": "[subscription().subscriptionId]",
-        "location": "[steps('descriptionStep').resourceSelector.location]",
         "allowedLocations": "[steps('deployPolicies').allowedLocations]",
         "allowedVmSizes": "[steps('deployPolicies').allowedVmSizes]"
       }
