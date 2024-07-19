@@ -2,9 +2,6 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "subscriptionId": {
-      "type": "string"
-    },
     "allowedLocations": {
       "type": "array"
     },
@@ -24,29 +21,6 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "customerTenantId": {
-            "value": "[subscription().tenantId]"
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2019-10-01",
-      "name": "DeployPolicies",
-      "dependsOn": [
-        "LighthouseOnboarding"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[uri(deployment().properties.templateLink.uri, 'nestedtemplates/deployPolicies.json')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "subscriptionId": {
-            "value": "[parameters('subscriptionId')]"
-          },
           "allowedLocations": {
             "value": "[parameters('allowedLocations')]"
           },
